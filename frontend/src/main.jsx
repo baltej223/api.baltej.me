@@ -5,6 +5,8 @@ import { AuthProvider, ProtectedRoute } from './context/AuthContext'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import Dashboard from './components/Dashboard'
+import NewAPI from './components/NewAPI'
+import APIDetail from './components/APIDetail'
 import './index.css'
 
 createRoot(document.getElementById('root')).render(
@@ -19,6 +21,22 @@ createRoot(document.getElementById('root')).render(
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/new"
+            element={
+              <ProtectedRoute>
+                <NewAPI />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/info/:id"
+            element={
+              <ProtectedRoute>
+                <APIDetail />
               </ProtectedRoute>
             }
           />

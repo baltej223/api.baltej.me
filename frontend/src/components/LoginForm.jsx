@@ -26,7 +26,7 @@ export default function LoginForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // required for cookies
+        credentials: 'include',
         body: JSON.stringify(formData),
       })
 
@@ -36,10 +36,7 @@ export default function LoginForm() {
         throw new Error(data.message || 'Login failed')
       }
 
-      // Backend handles JWT via HTTP-only cookie
-      // Just store user/session state if needed
       login()
-
       navigate('/dashboard')
     } catch (err) {
       setError(err.message)
@@ -49,11 +46,11 @@ export default function LoginForm() {
   }
 
   return (
-    <form className="auth-form">
-      <h2>Login</h2>
-      {error && <p className="error">{error}</p>}
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
+    <form className="max-w-[360px] mx-auto mt-20 p-8 border border-[--color-border] rounded-lg text-left">
+      <h2 className="text-2xl font-medium text-[--color-text-h] mb-6 text-center">Login</h2>
+      {error && <p className="text-[--color-error] mb-4 p-2 bg-[--color-error-bg] rounded">{error}</p>}
+      <div className="mb-5">
+        <label htmlFor="email" className="block mb-2 font-medium">Email</label>
         <input
           type="email"
           id="email"
@@ -61,10 +58,11 @@ export default function LoginForm() {
           value={formData.email}
           onChange={handleChange}
           required
+          className="w-full px-3 py-[10px] border border-[--color-border] rounded text-base focus:outline-none focus:border-[--color-accent] box-border"
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="password">Password</label>
+      <div className="mb-5">
+        <label htmlFor="password" className="block mb-2 font-medium">Password</label>
         <input
           type="password"
           id="password"
@@ -72,13 +70,14 @@ export default function LoginForm() {
           value={formData.password}
           onChange={handleChange}
           required
+          className="w-full px-3 py-[10px] border border-[--color-border] rounded text-base focus:outline-none focus:border-[--color-accent] box-border"
         />
       </div>
-      <button type="button" onClick={handleSubmit} disabled={loading}>
+      <button type="button" onClick={handleSubmit} disabled={loading} className="w-full py-3 mt-3 bg-[--color-accent] text-white border-none rounded cursor-pointer text-base hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed">
         {loading ? 'Logging in...' : 'Login'}
       </button>
-      <p className="switch-link">
-        Don't have an account? <Link to="/register">Create one</Link>
+      <p className="mt-3 text-sm">
+        Don't have an account? <Link to="/register" className="text-[--color-accent] hover:underline">Create one</Link>
       </p>
     </form>
   )

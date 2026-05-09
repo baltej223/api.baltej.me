@@ -6,12 +6,12 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 
-import { connectDB } from "./db/database.js";
+import { connectDB } from "./db/database.ts";
 import HandleLogin from "./routes/auth/login/main.ts";
-import HandleVerify from "./routes/verify.js";
-import HandleLogout from "./routes/logout.js";
-// import CreateAccount from "./routes/create_acc.js";
-import VerifyJson from "./middlewares/JSON_Verify.js";
+import HandleVerify from "./routes/verify.ts";
+import HandleLogout from "./routes/logout.ts";
+// import CreateAccount from "./routes/create_acc.ts";
+import VerifyJson from "./middlewares/JSON_Verify.ts";
 
 connectDB();
 
