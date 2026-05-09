@@ -44,6 +44,6 @@ export default async function HandleLogin(
   if (user.length !== 0 && user[0]._id) {
     SendJWT(res, user[0]._id as mongoose.Types.ObjectId);
   } else {
-    res.status(400).send("FORBIDDEN!");
+    res.status(400).json({ message: "FORBIDDEN" });
   }
 }

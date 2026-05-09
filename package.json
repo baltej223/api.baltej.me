@@ -1,0 +1,12 @@
+{
+  "name": "central_api_deployer",
+  "type": "module",
+  "scripts": {
+    "backend": "cd backend && bun run start",
+    "frontend": "cd frontend && bun run dev",
+    "run": "concurrently \"bun run backend\" \"bun run frontend\""
+  },
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

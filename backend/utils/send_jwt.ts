@@ -16,7 +16,7 @@ export default function SendJWT(
 
   res.setHeader(
     "Set-Cookie",
-    `login=${JWT}; HttpOnly; Secure; Max-Age=${7 * 24 * 60}; Path=/; SameSite=Strict`
+    `login=${JWT}; HttpOnly; Secure; Max-Age=${7 * 24 * 60}; Path=/; SameSite=None`
   );
   res.status(200).json({ message });
 }

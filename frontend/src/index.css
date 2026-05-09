@@ -109,3 +109,66 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.auth-form {
+  max-width: 360px;
+  margin: 80px auto;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: left;
+}
+
+.auth-form h2 {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.auth-form .form-group {
+  margin-bottom: 20px;
+}
+
+.auth-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.auth-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-form .error {
+  color: #dc2626;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: rgba(220, 38, 38, 0.1);
+  border-radius: 4px;
+}
