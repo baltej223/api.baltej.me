@@ -1,20 +1,13 @@
 "use server";
-import mongoose, { Model, Document } from "mongoose";
-import userSchema from "../models/User.model.js";
+import mongoose from "mongoose";
+import userSchema from "../models/User.model.ts";
+import apiDbSchema from "../models/Api.model.ts"
 
-export interface IUser extends Document {
-  email: string;
-  password: string;
-  age?: number;
-  profile: {
-    name: string;
-    bio: string;
-    interests: string;
-  };
-}
 
-export let User: Model<IUser> =
-  mongoose.models.userData || mongoose.model<IUser>("User", userSchema);
+export let User: any =
+  mongoose.models.userData || mongoose.model("User", userSchema);
+
+export let APIModel: any = mongoose.models.ApiModel || mongoose.model("API", apiDbSchema);
 
 interface CachedConnection {
   connection: typeof mongoose | null;

@@ -21,7 +21,7 @@ export default function NewAPI() {
   const [step, setStep] = useState(1)
   const [selectedType, setSelectedType] = useState(null)
   const [name, setName] = useState('')
-  const [endpoint, setEndpoint] = useState('')
+  const [route, setRoute] = useState('/')
   const [statusCode, setStatusCode] = useState(200)
   const [responseBody, setResponseBody] = useState('{}')
   const [upstreamUrl, setUpstreamUrl] = useState('')
@@ -45,16 +45,22 @@ export default function NewAPI() {
     setError('')
     setLoading(true)
 
-    const payload = { name, endpoint, type: selectedType }
+    const payload = { name, route, type: selectedType, config: {} }
 
     if (selectedType === 'static') {
-      payload.statusCode = parseInt(statusCode, 10)
-      payload.responseBody = responseBody
+      payload.config = {
+        staticBody: responseBody,
+        staticStatus: parseInt(statusCode, 10)
+      }
     } else if (selectedType === 'proxy') {
-      payload.upstreamUrl = upstreamUrl
-      payload.stripPrefix = stripPrefix
+      payload.config = {
+        upstreamUrl,
+        stripPrefix
+      }
     } else if (selectedType === 'module') {
-      payload.handlerCode = handlerCode
+      payload.config = {
+        moduleCode: handlerCode
+      }
     }
 
     try {
@@ -67,11 +73,11 @@ export default function NewAPI() {
 
       if (!res.ok) {
         const data = await res.json()
-        throw new Error(data.error || 'Failed to create API')
+        throw new Error(data.message || 'Failed to create API')
       }
 
       const data = await res.json()
-      navigate(`/info/${data.id}`)
+      navigate(`/info/${data._id}`)
     } catch (err) {
       setError(err.message)
     } finally {
@@ -130,12 +136,12 @@ export default function NewAPI() {
               </div>
 
               <div className="mb-5">
-                <label className="block text-sm font-medium text-[var(--color-text-h)] mb-2">Endpoint Path</label>
+                <label className="block text-sm font-medium text-[var(--color-text-h)] mb-2">Route</label>
                 <input
                   type="text"
-                  value={endpoint}
-                  onChange={e => setEndpoint(e.target.value)}
-                  placeholder="/weather"
+                  value={route}
+                  onChange={e => setRoute(e.target.value)}
+                  placeholder="/"
                   required
                   className={inputClass}
                 />

@@ -3,7 +3,10 @@ import passport from "passport";
 import { User } from "../db/database.js";
 
 const opts: StrategyOptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    ExtractJwt.fromAuthHeaderAsBearerToken(),
+    (req) => req?.cookies?.login || null,
+  ]),
   secretOrKey: "gbtw4hukfvhjksbfcjvkwbjq32knravewdqnlJEKCHVBFEIDNJFKV",
 };
 

@@ -1,27 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || '/api'
 
-const initialApis = [
-  { id: 1, name: 'Current Spotify playing API', status: 'running' },
-  { id: 2, name: 'Current Apple Music playing API', status: 'stopped' },
-  { id: 3, name: 'Readme API', status: 'running' },
-  { id: 4, name: 'Admin API', status: 'running' },
-]
-
 export default function Dashboard() {
   const { token, logout } = useAuth()
   const navigate = useNavigate()
-  const [apis, setApis] = useState(initialApis)
+  const [apis, setApis] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const handleToggleStatus = async (id) => {
-    const api = apis.find(a => a.id === id)
-    const newStatus = api.status === 'running' ? 'stopped' : 'running'
+  useEffect(() => {
+    const fetchApis = async () => {
+      try {
+        const res = await fetch(`${BACKEND_URL}/apis`, {
+          credentials: 'include',
+        })
+        if (!res.ok) throw new Error('Failed to fetch APIs')
+        const data = await res.json()
+        setApis(data)
+      } catch (err) {
+        console.error('Failed to fetch APIs:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchApis()
+  }, [])
+
+  const handleToggleStatus = async (id, currentStatus) => {
+    const newStatus = currentStatus === 'Running' ? 'Stopped' : 'Running'
     
     setApis(prev => prev.map(a => 
-      a.id === id ? { ...a, status: newStatus } : a
+      a._id === id ? { ...a, status: newStatus } : a
     ))
 
     try {
@@ -32,7 +43,7 @@ export default function Dashboard() {
     } catch (err) {
       console.error('Failed to toggle status:', err)
       setApis(prev => prev.map(a => 
-        a.id === id ? { ...a, status: api.status } : a
+        a._id === id ? { ...a, status: currentStatus } : a
       ))
     }
   }
@@ -68,26 +79,32 @@ export default function Dashboard() {
         </nav>
 
         <div className="dashboard-body">
-          <div className="api-list">
-            {apis.map(api => (
-              <div
-                key={api.id}
-                className="api-row cursor-pointer"
-                onClick={() => navigate(`/api-info/${api.id}`)}
-              >
-                <span className="api-name">{api.name}</span>
-                <button
-                  className={`status-badge ${api.status}`}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleToggleStatus(api.id)
-                  }}
+          {loading ? (
+            <div className="text-center text-[var(--color-text)]">Loading...</div>
+          ) : apis.length === 0 ? (
+            <div className="text-center text-[var(--color-text)]">No APIs yet. Create one to get started!</div>
+          ) : (
+            <div className="api-list">
+              {apis.map(api => (
+                <div
+                  key={api._id}
+                  className="api-row cursor-pointer"
+                  onClick={() => navigate(`/info/${api._id}`)}
                 >
-                  {api.status === 'running' ? 'Running' : 'Stopped'}
-                </button>
-              </div>
-            ))}
-          </div>
+                  <span className="api-name">{api.name}</span>
+                  <button
+                    className={`status-badge ${api.status === 'Running' ? 'running' : 'stopped'}`}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleToggleStatus(api._id, api.status)
+                    }}
+                  >
+                    {api.status === 'Running' ? 'Running' : 'Stopped'}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

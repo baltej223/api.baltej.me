@@ -103,7 +103,8 @@ export default function APIDetail() {
 
   const typeColors = TYPE_COLORS[api.type] || TYPE_COLORS.static
   const typeLabel = api.type === 'static' ? 'Static API' : api.type === 'proxy' ? 'Proxy API' : 'Module'
-  const fullUrl = `${BACKEND_URL.replace('/api', '')}${api.endpoint}`
+  const fullUrl = `http://localhost:3000${api.endpoint}`
+  const config = api.config || {}
 
   return (
     <div className="flex-1 flex flex-col p-6 box-border">
@@ -123,9 +124,9 @@ export default function APIDetail() {
               <span className="px-3 py-1.5 rounded-full text-xs font-semibold" style={{ background: typeColors.bg, color: typeColors.color }}>
                 {typeLabel}
               </span>
-              <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${api.status === 'running' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-                <span className={`w-2 h-2 rounded-full ${api.status === 'running' ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
-                {api.status === 'running' ? 'Running' : 'Stopped'}
+              <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${api.status === 'Running' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                <span className={`w-2 h-2 rounded-full ${api.status === 'Running' ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
+                {api.status === 'Running' ? 'Running' : 'Stopped'}
               </span>
             </div>
           </div>
@@ -142,11 +143,11 @@ export default function APIDetail() {
                 <>
                   <div className="flex flex-col gap-1.5">
                     <span className="text-xs text-[var(--color-text)] uppercase tracking-wider">HTTP Status Code</span>
-                    <span className="font-[var(--font-mono)] bg-[var(--color-code-bg)] p-2 rounded-md text-sm text-[var(--color-text-h)] inline-block">{api.statusCode}</span>
+                    <span className="font-[var(--font-mono)] bg-[var(--color-code-bg)] p-2 rounded-md text-sm text-[var(--color-text-h)] inline-block">{config.staticStatus || 200}</span>
                   </div>
                   <div className="col-span-2 flex flex-col gap-1.5">
                     <span className="text-xs text-[var(--color-text)] uppercase tracking-wider">Response Body</span>
-                    <pre className="bg-[var(--color-code-bg)] p-3 rounded-lg font-[var(--font-mono)] text-sm text-[var(--color-text-h)] whitespace-pre-wrap break-all m-0 border border-[var(--color-border)]">{api.responseBody}</pre>
+                    <pre className="bg-[var(--color-code-bg)] p-3 rounded-lg font-[var(--font-mono)] text-sm text-[var(--color-text-h)] whitespace-pre-wrap break-all m-0 border border-[var(--color-border)]">{config.staticBody}</pre>
                   </div>
                 </>
               )}
@@ -155,11 +156,11 @@ export default function APIDetail() {
                 <>
                   <div className="flex flex-col gap-1.5">
                     <span className="text-xs text-[var(--color-text)] uppercase tracking-wider">Upstream URL</span>
-                    <span className="font-[var(--font-mono)] bg-[var(--color-code-bg)] p-2 rounded-md text-sm text-[var(--color-text-h)] inline-block">{api.upstreamUrl}</span>
+                    <span className="font-[var(--font-mono)] bg-[var(--color-code-bg)] p-2 rounded-md text-sm text-[var(--color-text-h)] inline-block">{config.upstreamUrl}</span>
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <span className="text-xs text-[var(--color-text)] uppercase tracking-wider">Strip Prefix</span>
-                    <span className="font-[var(--font-mono)] bg-[var(--color-code-bg)] p-2 rounded-md text-sm text-[var(--color-text-h)] inline-block">{api.stripPrefix ? 'Yes' : 'No'}</span>
+                    <span className="font-[var(--font-mono)] bg-[var(--color-code-bg)] p-2 rounded-md text-sm text-[var(--color-text-h)] inline-block">{config.stripPrefix ? 'Yes' : 'No'}</span>
                   </div>
                 </>
               )}
@@ -167,7 +168,7 @@ export default function APIDetail() {
               {api.type === 'module' && (
                 <div className="col-span-2 flex flex-col gap-1.5">
                   <span className="text-xs text-[var(--color-text)] uppercase tracking-wider">Handler Code</span>
-                  <pre className="bg-[var(--color-code-bg)] p-3 rounded-lg font-[var(--font-mono)] text-sm text-[var(--color-text-h)] whitespace-pre-wrap break-all m-0 border border-[var(--color-border)]">{api.handlerCode}</pre>
+                  <pre className="bg-[var(--color-code-bg)] p-3 rounded-lg font-[var(--font-mono)] text-sm text-[var(--color-text-h)] whitespace-pre-wrap break-all m-0 border border-[var(--color-border)]">{config.moduleCode || ''}</pre>
                 </div>
               )}
             </div>
@@ -203,11 +204,11 @@ export default function APIDetail() {
 
           <div className="flex gap-3 mt-8 pt-6 border-t border-[var(--color-border)]">
             <button
-              className={`btn-pill ${api.status === 'running' ? '' : 'primary'}`}
+              className={`btn-pill ${api.status === 'Running' ? '' : 'primary'}`}
               onClick={handleToggle}
               disabled={toggling}
             >
-              {toggling ? 'Toggling...' : api.status === 'running' ? 'Stop' : 'Start'}
+              {toggling ? 'Toggling...' : api.status === 'Running' ? 'Stop' : 'Start'}
             </button>
             <button
               className="btn-pill bg-[var(--color-error-bg)] border-[var(--color-error)] text-[var(--color-error)] hover:bg-red-200"

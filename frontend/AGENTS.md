@@ -55,12 +55,12 @@ frontend/
 | POST   | `/api/login`           | Authenticate user            |
 | GET    | `/api/verify`          | Verify session (on app load) |
 | POST   | `/api/logout`          | Logout user                  |
-| POST   | `/api/register`       | Create new user account      |
-| GET    | `/api/apis`           | List all registered APIs     |
-| POST   | `/api/apis`           | Create new API entry        |
-| GET    | `/api/apis/:id`       | Get API details              |
-| PATCH  | `/api/apis/:id/toggle` | Toggle API status           |
-| DELETE | `/api/apis/:id`       | Delete an API               |
+| POST   | `/api/register`        | Create new user account      |
+| GET    | `/api/apis`            | List all registered APIs     |
+| POST   | `/api/apis`            | Create new API entry         |
+| GET    | `/api/apis/:id`        | Get API details              |
+| PATCH  | `/api/apis/:id/toggle` | Toggle API status            |
+| DELETE | `/api/apis/:id`        | Delete an API                |
 
 ## Authentication Flow
 
@@ -70,14 +70,14 @@ frontend/
 
 ## Routing Structure
 
-| Path           | Component  | Access    |
-| -------------- | ---------- | --------- |
-| `/login`       | LoginForm  | Public    |
-| `/register`    | RegisterForm | Public |
-| `/dashboard`   | Dashboard  | Protected |
-| `/new`         | NewAPI     | Protected |
-| `/api-info/:id`| APIDetail  | Protected |
-| `*`            | Redirect to `/login` | - |
+| Path            | Component            | Access    |
+| --------------- | -------------------- | --------- |
+| `/login`        | LoginForm            | Public    |
+| `/register`     | RegisterForm         | Public    |
+| `/dashboard`    | Dashboard            | Protected |
+| `/new`          | NewAPI               | Protected |
+| `/api-info/:id` | APIDetail            | Protected |
+| `*`             | Redirect to `/login` | -         |
 
 ## Styling
 
@@ -139,11 +139,11 @@ Two-step flow for creating a new API.
 
 ### Type-Specific Fields
 
-| Type    | Fields                                    |
-| ------- | ----------------------------------------- |
-| Static  | HTTP Status Code (number), Response Body (JSON textarea) |
-| Proxy   | Upstream URL (url), Strip prefix checkbox  |
-| Module  | Handler Code (textarea with starter template) |
+| Type   | Fields                                                   |
+| ------ | -------------------------------------------------------- |
+| Static | HTTP Status Code (number), Response Body (JSON textarea) |
+| Proxy  | Upstream URL (url), Strip prefix checkbox                |
+| Module | Handler Code (textarea with starter template)            |
 
 ### Submission
 
@@ -190,4 +190,3 @@ import { useAuth } from "../context/AuthContext";
 
 const { token, user, login, logout } = useAuth();
 ```
-

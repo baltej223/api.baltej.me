@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { User, IUser } from "../../../db/database.js";
-import SendJWT from "../../../utils/send_jwt.js";
+import { User, IUser } from "../../db/database.js";
+import SendJWT from "../../utils/send_jwt.js";
 
 interface LoginBody {
   email?: string;
@@ -44,6 +44,6 @@ export default async function HandleLogin(
   if (user.length !== 0 && user[0]._id) {
     SendJWT(res, user[0]._id as mongoose.Types.ObjectId);
   } else {
-    res.status(400).json({ message: "FORBIDDEN" });
+    res.status(400).json({ message: "Wrong password!" });
   }
 }

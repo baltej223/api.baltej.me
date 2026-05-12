@@ -7,11 +7,10 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 import { connectDB } from "./db/database.ts";
-import HandleLogin from "./routes/auth/login/main.ts";
-import HandleVerify from "./routes/verify.ts";
-import HandleLogout from "./routes/logout.ts";
-// import CreateAccount from "./routes/create_acc.ts";
 import VerifyJson from "./middlewares/JSON_Verify.ts";
+import authRouter from "./routes/auth/main.ts";
+import ApiRouter from "./routes/api/main.ts";
+import defaultRouter from "./routes/main.ts"
 
 connectDB();
 
@@ -27,13 +26,13 @@ app.use(
   })
 );
 
-app.post("/login", HandleLogin);
-app.get("/verify", HandleVerify);
-app.post("/logout", HandleLogout);
 
-// app.post("/register", CreateAccount);
+app.get("/health", (_req: Request, res: Response) => res.send("Im a teapot"));
 
-app.get("/", (_req: Request, res: Response) => res.send("Hearbeat Received!"));
+app.use("/auth", authRouter);
+app.use("/api", ApiRouter);
+
+app.use("/", defaultRouter);
 
 const port = process.env.PORT;
 if (!port) {
