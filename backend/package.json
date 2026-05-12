@@ -5,7 +5,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "bun --watch main.js | ./node_modules/.bin/pino-pretty",
+    "prod":"bun main.ts",
+    "start": "bun --watch main.ts | ./node_modules/.bin/pino-prettiy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
