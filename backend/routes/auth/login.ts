@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
-import { User, IUser } from "../../db/database.js";
+import { User } from "../../db/database.js";
+import { IUser } from "../../models/User.model.js";
 import SendJWT from "../../utils/send_jwt.js";
 
 interface LoginBody {

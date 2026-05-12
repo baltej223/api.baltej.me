@@ -1,6 +1,5 @@
 import express from "express";
 import { APIModel } from "../db/database";
-import { Readable } from "stream"; // need itfor stream
 import http from "http";
 import https from "https";
 import { URL } from "url";
@@ -16,7 +15,7 @@ const hopByHop = new Set([
   "upgrade",
 ]);
 
-export default async function defaultHandler(req: express.Request, res: express.Response) {
+export default async function defaultHandler(req: express.Request, res: express.Response): Promise<express.Response> {
   let request_path = req.path.replace('/', '');
 
   let matchingDoc = await APIModel.findOne({
@@ -24,8 +23,7 @@ export default async function defaultHandler(req: express.Request, res: express.
   });
 
   if (matchingDoc == null) {
-    res.status(404).json({ message: "Route Not found." });
-    return;
+    return res.status(404).json({ message: "Route Not found." });
   }
 
   if (matchingDoc.api_type == "static") {
@@ -96,4 +94,5 @@ export default async function defaultHandler(req: express.Request, res: express.
       return res.status(500).json({ message: "Proxy Error" });
     }
   }
+  return res.json({ message: "Some Error Occured." });
 }

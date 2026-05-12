@@ -7,7 +7,7 @@
   "scripts": {
     "prod": "bun dist/index.js",
     "build": "tsc",
-    "start": "bun --watch main.ts | ./node_modules/.bin/pino-prettiy",
+    "start": "bun --watch index.ts | ./node_modules/.bin/pino-pretty",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
