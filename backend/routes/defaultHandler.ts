@@ -1,5 +1,5 @@
 import express from "express";
-import { APIModel } from "../db/database";
+import { APIModel } from "../db/database.ts";
 import http from "http";
 import https from "https";
 import { URL } from "url";

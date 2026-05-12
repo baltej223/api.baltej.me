@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "type": "module",
+  "type": "",
   "scripts": {
     "prod": "bun dist/index.js",
     "build": "tsc",
