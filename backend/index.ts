@@ -27,7 +27,7 @@ app.use(
 );
 
 
-app.get("/health", (_req: Request, res: Response) => res.send("Im a teapot"));
+app.get("", (_req: Request, res: Response) => res.json({ message_from_space: "Im a teapot" }));
 
 app.use("/auth", authRouter);
 app.use("/api", ApiRouter);
