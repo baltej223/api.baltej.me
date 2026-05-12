@@ -32,7 +32,7 @@ export default async function defaultHandler(req: express.Request, res: express.
     let return_value = atob(encoded_return_value);
 
     res.header("Content-Type", return_type);
-    res.status(200).send(return_value);
+    return res.status(200).send(return_value);
   }
   else if (matchingDoc.api_type == "proxy") {
     let proxy_url = matchingDoc.api_proxy_url;
