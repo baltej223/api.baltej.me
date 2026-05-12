@@ -39,6 +39,10 @@ if (!port) {
   throw new Error("PORT environment variable is not set");
 }
 
-app.listen(port, () => {
-  console.log("Running on port", port);
-});
+if (process.env.VERCEL !== "1") {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
+}
+
+export default app;

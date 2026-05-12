@@ -5,7 +5,8 @@
   "main": "main.js",
   "type": "module",
   "scripts": {
-    "prod":"bun index.ts",
+    "prod": "bun dist/index.js",
+    "build": "tsc",
     "start": "bun --watch main.ts | ./node_modules/.bin/pino-prettiy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +26,7 @@
     "pino-http": "^11.0.0",
     "pino-pretty": "^13.1.2",
     "redis": "^5.10.0",
+    "typescript": "^6.0.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -32,9 +34,8 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
-    "@types/node": "^25.5.0",
+    "@types/node": "^25.7.0",
     "@types/passport": "^1.0.17",
-    "@types/passport-jwt": "^4.0.1",
-    "typescript": "^6.0.2"
+    "@types/passport-jwt": "^4.0.1"
   }
 }
