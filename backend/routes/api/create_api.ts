@@ -35,7 +35,7 @@ async function CreateNewApi(req: express.Request, res: express.Response): Promis
       atob(body.api_return_value as string);
     }
     catch (e) {
-      res.status(400).json({ message: "base64 return value not properly encoded." });
+      return res.status(400).json({ message: "base64 return value not properly encoded." });
     }
 
     let new_api = new APIModel(
@@ -58,7 +58,7 @@ async function CreateNewApi(req: express.Request, res: express.Response): Promis
       });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Succesful",
       api_name: new_api.api_name,
       api_id: new_api._id
