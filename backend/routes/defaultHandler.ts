@@ -15,7 +15,7 @@ const hopByHop = new Set([
   "upgrade",
 ]);
 
-export default async function defaultHandler(req: express.Request, res: express.Response): Promise<express.Response> {
+export default async function defaultHandler(req: express.Request, res: express.Response): Promise<void> {
   let request_path = req.path.replace('/', '');
 
   let matchingDoc = await APIModel.findOne({
@@ -23,7 +23,8 @@ export default async function defaultHandler(req: express.Request, res: express.
   });
 
   if (matchingDoc == null) {
-    return res.status(404).json({ message: "Route Not found." });
+    res.status(404).json({ message: "Route Not found." });
+    return;
   }
 
   if (matchingDoc.api_type == "static") {
@@ -32,7 +33,8 @@ export default async function defaultHandler(req: express.Request, res: express.
     let return_value = atob(encoded_return_value);
 
     res.header("Content-Type", return_type);
-    return res.status(200).send(return_value);
+    res.status(200).send(return_value);
+    return;
   }
   else if (matchingDoc.api_type == "proxy") {
     let proxy_url = matchingDoc.api_proxy_url;
@@ -91,8 +93,10 @@ export default async function defaultHandler(req: express.Request, res: express.
       }
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Proxy Error" });
+      res.status(500).json({ message: "Proxy Error" });
+      return;
     }
   }
-  return res.json({ message: "Some Error Occured." });
+
+  // return res.json({ message: "Some Error Occured." });
 }
