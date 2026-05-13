@@ -27,7 +27,7 @@ app.use(
 );
 
 
-app.get("", (_req: Request, res: Response) => res.json({ message_from_space: "Im a teapot" }));
+app.get("", (_req: Request, res: Response) => res.json({ message_from_space: "Im a teapot", goto: "/info" }));
 
 app.use("/auth", authRouter);
 app.use("/api", ApiRouter);
